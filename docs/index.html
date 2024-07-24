@@ -3,16 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Image</title>
+    <title>Streampower and Diffusion</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
 </head>
 <body>
+  <h1>Hillslopes and Rivers</h1>
+  When modeling landscapes, we are often interested in modeling  hillslope and fluvial processes.
+  This is not only in the hopes of capturing some of  the most fundemental geomorphic processes involved, but also because the interplay between these two types of processes are thought to be strongly reflected in the landscape.
+  <h2>Streampower</h2>
+  A common way of modeling fluvial erosion in bedrock rivers is with the streampower law:
+  $$\frac{\partial z}{\partial t} = KA^mS^n$$
+  Here, $A$ is the drainage area at a specific location, $S$, is the slope at that location, and $K$, $m$, and $n$, are emperical constants.
+  $K$ can be thought of the main driver of the efficiency of the fluvial process.
+  <h2>Diffusion</h2>
+  A common way to model the transport of soil on convex hillslopes is with a diffusion law:
+  $$\frac{\partial z}{\partial t}=D \frac{\partial ^2 z}{\partial x^2}$$
+  Where $D$ is the diffusion coefficient, which can be thought of as expressing the effectiveness of diffusion.
+  <h2>Modeling</h2>
+  To explore the ways the relative strength of streampower and diffusion, I used the <a href="https://github.com/landlab/landlab/">Landlab</a> modeling framework to model a series of landscapes with a range of parameters.  Particularly:
+  $$0.005 m^2 a^{-1}\leq D \leq 0.02 m^2 a^{-1}$$ and $$15\times 10^{-5}m^{0.4}a^{-1}\leq K \leq 200 \times 10^{-5}m^{0.4}a^{-1}$$
+  I let these models run for three million years, or until they reached equilibrium.
+   I made hillshades of the final topography for you to epxlore below.
   <div class="coordinates" id="coodinates"><h1>Mouse Coordiantes: (0,0)<h1></div>
   </br>
     <div class="container">
         <div class="square" id="square"></div>
         <div class="image" id="image">
-            <img src="default.jpg" alt="Image" id="displayImage">
+            <img src="default.jpg" alt="Hover over square to display landscape." id="displayImage">
         </div>
     </div>
     <script src="script.js" type="module"></script>
