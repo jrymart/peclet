@@ -1,0 +1,27 @@
+const square = document.getElementById('square');
+const displayImage = document.getElementById('displayImage');
+
+// Function to get image based on mouse position
+function getImageForPosition(x, y) {
+    // Define the logic to choose image based on x and y.
+    // This example just uses a simple threshold for demonstration.
+    if (x < square.clientWidth / 2 && y < square.clientHeight / 2) {
+        return 'image1.jpg';
+    } else if (x >= square.clientWidth / 2 && y < square.clientHeight / 2) {
+        return 'image2.jpg';
+    } else if (x < square.clientWidth / 2 && y >= square.clientHeight / 2) {
+        return 'image3.jpg';
+    } else {
+        return 'image4.jpg';
+    }
+}
+
+// Event listener for mouse move over the square
+square.addEventListener('mousemove', (event) => {
+    const rect = square.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const newImage = getImageForPosition(x, y);
+    displayImage.src = newImage;
+});
