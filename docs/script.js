@@ -105,7 +105,7 @@ var legend = svg.selectAll(".legend")
     .attr("width", 20)
     .attr("height", 20)
     .attr("fill", function(i) {return myColor(
-	(i)*(Math.max(...relief_values)-Math.min(...relief_values))/9+Math.min(...relief_values))});
+	(9-i)*(Math.max(...relief_values)-Math.min(...relief_values))/9+Math.min(...relief_values))});
 svg.append("text")
     .text(Math.floor(Math.min(...relief_values)))
     .attr("x", 50)
