@@ -5,6 +5,7 @@ body {
     align-items: center;
     /*height: 100vh;*/
     background-color: #f0f0f0;
+    padding-bottom: 200px;
 }
 
 . coordinates {
@@ -39,5 +40,4 @@ body {
 
 .image img {
     width: 100%;
-    height: 100%;
 }

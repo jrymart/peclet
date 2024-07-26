@@ -158,7 +158,7 @@ console.log(d3.Legend);
 var mousemove = function(d) {
     let cur_D = d.originalTarget.__data__.D
     let cur_k = d.originalTarget.__data__.k
-    coodinates.textContent = `D: ${cur_D.toExponential(2)}, k: ${cur_k.toExponential(2)})`;
+    coodinates.textContent = `D: ${cur_D.toExponential(2)}, K: ${cur_k.toExponential(2)} `;
     let image_name = models.filter((model) => model["D"] == cur_D & model["k"]== cur_k)[0]["model_run_id"]
     let image_path = `hillshades/${image_name}.png`;
     displayImage.src = image_path;    
