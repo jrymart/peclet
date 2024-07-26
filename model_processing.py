@@ -43,10 +43,35 @@ def db_to_csv(args):
     query = "SELECT %s from %s" % (str(tuple(args.c)).replace("'", "\"")[1:-1], args.t)
     result = cursor.execute(query)
     rows = result.fetchall()
+    columns = args.c
+    if args.relief:
+        reliefs = get_relief(args.id)
+        rows = [list(row) for row in rows]
+        for row in rows:
+                row.append(reliefs[row[0]])
+        columns.append("relief")
     with open(args.o, 'w') as output_file:
         writer = csv.writer(output_file)
         writer.writerow(args.c)
         writer.writerows(rows)
+
+def get_relief(input_directory):
+    reliefs = {}
+    for file_path in os.listdir(input_directory):
+        if os.path.splitext(file_path)[1] == ".nc":
+            nc_path = os.path.join(input_directory, file_path)
+            nc_file = netCDF4.Dataset(nc_path)
+            elevation_array = np.array(nc_file.variables['topographic__elevation'][:][0])[2:-2,2:-2]
+            range = np.ptp(elevation_array)
+            name = os.path.splitext(os.path.split(file_path)[-1])[0]
+            reliefs[name] = range
+    return reliefs
+
+# def generate_npz(args):
+#     input_directory = args.id
+#     output_file_path = args.o
+#     for file_path in os.listdir(input_directory):
+        
         
 def main():
     parser = argparse.ArgumentParser()
@@ -60,7 +85,13 @@ def main():
     parse_csv.add_argument("-d")
     parse_csv.add_argument("-o")
     parse_csv.add_argument("-t")
+    parse_csv.add_argument("--relief", action="store_true")
+    parse_csv.add_argument("-id")
     parse_csv.add_argument("-c", type=str, nargs='+')
+    parse_npz = subparsers.add_parser("makenpz")
+   # parse_npz.set_defaults(func=generate_npz)
+    parse_npz.add_argument("-id")
+    parse_npz.add_argument("-o")
 
     args = parser.parse_args()
     args.func(args)
