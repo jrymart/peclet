@@ -76,6 +76,7 @@ console.log(D_values);
        .padding(0.01);
    svg.append("g")
     .call(d3.axisLeft(y)
+
 	  .tickFormat(
 	      (k) => k.toExponential(2)));
    // build a color scale
@@ -169,7 +170,7 @@ svg.selectAll()
     .data(models)
     .enter()
     .append("rect")
-    .attr("x", function(r) {return x( r["D"])})
+    .attr("x", function(r) {return x(r["D"])})
     .attr("y", function(r) {return y(r["k"])})
     .attr("D", r => r["D"])
     .attr("k", r => r["k"])
