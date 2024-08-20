@@ -37,7 +37,7 @@ console.log(links);
 const width = 2000;
 const height = 2000;
 const border=100;
-const node_height =  10;
+const node_height =  40;
 
 const svg = d3.select("#network-diagram")
       .append("svg")
@@ -52,11 +52,11 @@ const simulation = d3.forceSimulation(layers)
 //    .force("link", d3.forceLink(links).id(d => d.id).distance(100))
     .force("charge", d3.forceManyBody().strength(-40))
     .force("center", d3.forceCenter(width/2, height/2))
-    .force("x", d3.forceX(function(d){
+    .force("y", d3.forceY(function(d){
 	const xpos = d.layer_index*width/num_layers
 	console.log(xpos)
 	return xpos}))
-    .force("y", d3.forceY(function(d){
+    .force("x", d3.forceX(function(d){
         const ypos = (d.node_index*node_height)+height/2-d.layer_size*node_height/2
 	console.log(ypos)
        	return ypos}));
@@ -74,9 +74,9 @@ const node = svg.append("g")
     .data(layers)
     .enter().append("circle")
     .attr("class", "node")
-      .attr("r", 20);
-    //.on("mouseover", showNodeInfo)
-    //.on("mouseout", hideNodeInfo);
+      .attr("r", 20)
+    .on("mouseover", showNodeInfo)
+    .on("mouseout", hideNodeInfo);
 
 // Add labels to nodes
 const label = svg.append("g")
@@ -104,3 +104,28 @@ simulation.on("tick", () => {
         .attr("x", d => d.x)
         .attr("y", d => d.y);
 });
+
+function showNodeInfo(event, d) {
+    const nodeInfo = d3.select("#node-info");
+    nodeInfo.style("display", "block")
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 10) + "px")
+        .html(`
+            <h3>${d.text}</h3>
+<center>
+            <figure>
+            <img src="${d.example_img}" alt="Sample input" width="400">
+            <figcaption>Our example input after passing through this node</figcaption>
+            </figure>
+            <figure>
+            <img src="${d.activation_img}" alt="max activation" width="400">
+            <figcaption>The input to the network that would maximize the activation of this node</figcaption>
+            </figure>
+</center>
+        `);
+}
+
+// Function to hide node information on mouseout
+function hideNodeInfo() {
+    d3.select("#node-info").style("display", "none");
+}
