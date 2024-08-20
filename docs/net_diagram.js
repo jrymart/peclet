@@ -107,6 +107,7 @@ simulation.on("tick", () => {
 
 function showNodeInfo(event, d) {
     const nodeInfo = d3.select("#node-info");
+    const mousePosViz = d3.pointer(event);
     const popupWidth = 500;
     const popupHeight = 700;
     const padding = 10;
@@ -116,10 +117,10 @@ function showNodeInfo(event, d) {
     const viewportLeft = viewport.pageLeft;
     const viewportWidth = viewport.width;
     const viewportHeight = viewport.height;
-    const viewportBottom = viewportTop + viewportWidth;
-    const viewportRight = viewportLeft + viewportHeight;
+    const viewportBottom = viewportTop + viewportHeight;
+    const viewportRight = viewportLeft + viewportWidth;
 
-
+    
     const spaceRight = viewportWidth - event.clientX;
     const spaceBottom = viewportHeight - event.clientY;
 
@@ -139,6 +140,9 @@ function showNodeInfo(event, d) {
     }
     left = viewportLeft+padding;
     top = viewportTop+padding;
+    if (mousePosViz[0] < width/2) {
+	left = viewportRight-padding-popupWidth
+    }
     console.log(viewport)
     console.log(viewportLeft, viewportRight, viewportTop, viewportBottom);
     console.log(top, idealTop, viewportHeight, overshotHeight);
