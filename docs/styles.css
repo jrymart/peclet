@@ -12,6 +12,19 @@ body {
     font-size: 5rem;
 }
 
+#bodytext {
+    width: 40em;
+    margin-left: auto;
+    margin-right: auto;
+    text-justify: auto;
+    font-size: 1.2em;
+    font-family: sans-serif;
+}
+
+h1, h2, h3 {
+    font-samily:serif;
+}
+
 .container {
     display: flex;
     width: 90%;
