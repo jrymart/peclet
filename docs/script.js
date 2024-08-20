@@ -37,7 +37,7 @@ var svg = d3.select("#keysquare")
 	  "translate(" + margin.left + "," + margin.top + ")");
 //x scales and axis
 
-const data = await d3.csv("model_key_r.csv")
+const data = await d3.csv("run_1_key.csv")
 let models = data.map(r => ({"D": parseFloat(r["model_param.diffuser.D"]),
 			    "k": parseFloat(r["model_param.streampower.k"]),
 			    "relief": parseFloat(r["relief"]),
@@ -51,7 +51,7 @@ let k_values = models.map(model => model["k"]).filter((value, index, array) => a
 D_values.sort();
 k_values.sort();
 // });
-console.log(data)
+//console.log(data)
  let relief_values = models.map(model => model["relief"])
    var x = d3.scaleBand()
        .range([ 0, width ])
@@ -67,7 +67,7 @@ console.log(data)
     .attr("dx", "-2em")
 //    .attr("dy", "-5em")
     .attr("transform", "rotate(-65)");
-console.log(D_values);
+//console.log(D_values);
    // y scales and axis
    var y = d3.scaleBand()
        .range([ height, 0 ])
@@ -157,12 +157,12 @@ svg.append("text")
 console.log(d3.Legend);
 
 var mousemove = function(d) {
-    console.log(d);
+  //  console.log(d);
     let cur_D = d.target.__data__.D
     let cur_k = d.target.__data__.k
     coodinates.textContent = `D: ${cur_D.toExponential(2)}, K: ${cur_k.toExponential(2)} `;
     let image_name = models.filter((model) => model["D"] == cur_D & model["k"]== cur_k)[0]["model_run_id"]
-    let image_path = `hillshades/${image_name}.png`;
+    let image_path = `batch_one_hillshades/${image_name}.png`;
     displayImage.src = image_path;    
 }
 

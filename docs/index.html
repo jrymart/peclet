@@ -46,5 +46,31 @@
         </div>
     </div>
     <script src="script.js" type="module"></script>
+    <h2>Predicting the K/D ratio</h2>
+    Given that the only thing I'm varying in these model runs is K and D, it makes sense that this is what is controlling the output topography.  Can we predict the K/D ratio from the output topography?  With <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">convolutional neural networks</a> (CNNs) we can!  I designed a simple three layer CNN to predict K/D based on the final topography of the model run.  I ran 900 K D combinations from 10 different initial topographies for a total of 9000 model runs.  8 initial topographies were used for training, and I tested on the final 2.  Here is predicted vs actual K/D ratio for those test data sets.  With a more complicated CNN I have gotten more accurate results, but I am currently focused on a simpler, less accruate version for interpritability reasons.
+    
+    <center>
+    <div id="test_scatterplot"></div>
+    <script src="test_scatterplot.js" type="module"></script>
+    </center>
+
+    <h3>But what does the neual network <em>do</em>?</h3>
+    That's hard to say.  Really it's approximating this function:
+    $$f(Z)=\frac{K}{D}$$
+    Where $Z$ is the output topography of the model.  We can think of our model that generated the topography as a function, $M$, with $K$ and $D$ as the only variables, and so
+    $$M(K,D)=Z$$ and $$f(M(K,D))=\frac{K}{D}$$
+    We imagine that this mysterous function should exist, because we generated $Z$ from $K$ and $D$, really $f$ is almost $f^{-1}$.  However figuring out $f$ would be very complicated, because our Z is a really a 2D matrix or something like that, and it doesn't have a closed form.  So we approximate $f$ with our neural network $N$.  However, just because we have an approximation doesn't mean we understand how it works.  This neural network consists of 3 convolutional layers, each with a re-linerization and pooling layer, and then three linear layers, two of which have re-linerizations as well.  To make things worse, each convolutional layer has 10-20 "channels" which really means its 10 or more operations happening at once that get recombined.  So how can we hope to understand it?
+
+    Below, I have two methods for you to explore simultaneously.  First, I pass an example through the network, capturing its output after each operation.  Second is the concept of activation maximization, where you construct an input that maximizes the activation of a given node.  THis can be thought of the input that the node is looking for the most.  As you hover over the nodes in the network below, a popup will appear with the output of the node after being passed the example input, and the hypothetical input that would maximize that example.
+
+    <center>
+      <figure>
+	<img src="example_input.png">
+	<figcaption>The example we pass through the network</figcaption>
+      </figure>
+      </center>
+    <div id="network-diagram"></div>
+    <div id="node-info"></div>
+      <script src="net_diagram.js" type="module"></script>
 </body>
 </html>
