@@ -1,4 +1,4 @@
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
+var margin = {top: 10, right: 30, bottom: 60, left: 60},
     width = 460 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
@@ -33,6 +33,16 @@ var y = d3.scaleLinear()
     .range([0, height]);
 svg.append("g")
     .call(d3.axisLeft(y));
+
+svg.append("text")
+    .text("True K/D Value")
+    .attr("x", 110)
+    .attr("y", 420)
+svg.append("text")
+    .text("Inferred K/D Value")
+    .attr("x", 115)
+    .attr("y", 50)
+    .attr("transform", "rotate(90)");
 
 var tooltip = d3.select("#test_scatterplot")
     .append("div")
@@ -73,4 +83,14 @@ svg.append('g')
     .on("mouseover", mouseover)
     //.on("mousemove", mousemove)
     //.on("mouseleave", mouseleave)
+
+svg.append("path")
+    .datum([0,0.4])
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+	  .x(function(d) { return x(d) })
+	  .y(function(d) { return y(d) })
+	 )
 
